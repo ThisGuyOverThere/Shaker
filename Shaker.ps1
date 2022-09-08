@@ -1,20 +1,14 @@
-Add-Type -AssemblyName System.Windows.Forms
-$min = 0
-$maxX = [System.Windows.Forms.Screen]::AllScreens[0].bounds.width -1
-$maxY = [System.Windows.Forms.Screen]::AllScreens[0].bounds.height -1
-$oldPos = [System.Windows.Forms.Cursor]::Position
+$wsh = New-Object -ComObject WScript.Shell
+$start = get-date
+cls
 while($true)
-{
-	$Pos = [System.Windows.Forms.Cursor]::Position
-	if($pos -ne $oldPos)
-	{
-		$oldpos = [System.Windows.Forms.Cursor]::Position
-		Start-Sleep -Seconds 10
-		continue
-	}
-	$x = $min..$maxX | get-random
-	$y = $min..$maxY | get-random
-	[System.Windows.Forms.Cursor]::Position = New-Object System.Drawing.Point($x, $y)
-	$oldpos = [System.Windows.Forms.Cursor]::Position 
-	Start-Sleep -Seconds 10
+{	
+	cls
+	$runtime = (get-date)-$start
+	$beat = "Running for: {0}" -f "{0}:{1}:{2}" -f $runtime.hours, $runtime.minutes.tostring("00"), $runtime.seconds.tostring("00")
+	write-host -foregroundcolor cyan $beat
+	$wsh.SendKeys('{scrollLOCK}')
+	Start-Sleep -milliSeconds 100
+	$wsh.SendKeys('{scrollLOCK}')
+	Start-Sleep -Seconds 240
 }
